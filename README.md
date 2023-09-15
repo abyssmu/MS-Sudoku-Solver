@@ -52,3 +52,20 @@ There is a delay variable in `main.py` that will need to be messed around with. 
 There is another delay that is for the time between click and typing when solving the game. I believe there is a minimum that it will actually go. I tried seeing how fast it will go and set it to about 10 ms, but it was definitely not moving anywhere near that. This could be library or system dependent. I do not know as it was not important to me.
 
 Once setup, run the program with the game launched. I set a `keyboard.wait()` event at the beginning. This was to allow you to manually switch over to a new board before executing a new solve. You can delete this whole line and run the program manually if you wish. Don't forget to delete the `while(True)` as well or it will just try to solve it endlessly and crash.
+
+# Game setup
+
+The game needs to have a few specific settings set for this to work properly.
+
+1. In the options menu, `Update Notes` and `Show All Notes` need to be switched to off.
+2. The theme needs to be set to `Black and White`.
+
+# Instructions
+
+In order to start the program, you must already be in the puzzle you wish to solve. Go to `Classic`, then select your difficulty. Once the puzzle fully loads, run the script.
+
+Currently there is no ad detection. So if you get an ad, the program will crash. I am working on this and hopefully it will not be a big issue to solve. The game does run until you get an ad though. Solving several in a row before crashing.
+
+# Use cases
+
+Currently the program is only setup for use in `Classic` mode. It will solve classic daily challenges, but it will not solve irregular or ice puzzles.

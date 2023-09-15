@@ -5,6 +5,8 @@ from pynput import keyboard
 import time
 import win32gui
 
+import pyautogui
+
 def clean_grid(grid):
 	col = grid.copy()
 	row = grid.copy()
@@ -43,6 +45,23 @@ def create_mask(line):
 					pos += 1
 
 	return line
+
+def detect_ad(delay):
+	time.sleep(delay)
+
+	d = 800
+	win_image = 256 - convert_to_luminance(np.array(ig.grab((0, 0, d, d))))
+	test_x = 400
+	test_y = 50
+	test_point = win_image[test_x, test_y]
+	test_val = 89.3674
+
+	test = np.abs((test_point - test_val) / test_val)
+
+	# test_point must be within 15% of test_val
+	if test < 0.15: return True
+
+	return False
 
 def get_grid(win, threshold):
 	left_init = 25

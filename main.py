@@ -4,32 +4,44 @@ import number
 import puzzle
 import solver
 
-import keyboard
+def go():
+	while(True):
+		ad_x = 775
+		ad_y = 50
+		delay = 7
+		ad_detected = grid.detect_ad(delay)
 
-while(True):
-	keyboard.wait('space')
-	print('started')
+		while ad_detected:
+			print('Ad detected')
+			ad_detected = False
 
-	delay = 5
-	win = grid.convert_to_luminance(grid.get_window('Microsoft Sudoku', delay))
+			# input.click_at_point(0, ad_x, ad_y)
+			# ad_detected = grid.detect_ad(delay)
 
-	number_data = number.load_number_data('number_data/')
+		win = grid.convert_to_luminance(grid.get_window('Microsoft Sudoku', delay))
+		number_data = number.load_number_data('number_data/')
 
-	sum_threshold = 250
-	grid_data, start_point = grid.get_grid(win, sum_threshold)
-	grid_data = grid.clean_grid(grid_data)
+		sum_threshold = 250
+		grid_data, start_point = grid.get_grid(win, sum_threshold)
+		grid_data = grid.clean_grid(grid_data)
 
-	n = 9
-	puzzle_data = puzzle.create_blank_puzzle(n)
-	puzzle_data = puzzle.create_puzzle(grid_data, puzzle_data, number_data)
+		n = 9
+		puzzle_data = puzzle.create_blank_puzzle(n)
+		puzzle_data = puzzle.create_puzzle(grid_data, puzzle_data, number_data)
 
-	zeros = puzzle.get_zero_locations(puzzle_data)
-	midpoints = grid.get_empty_cell_midpoint(grid_data, zeros)
+		zeros = puzzle.get_zero_locations(puzzle_data)
+		midpoints = grid.get_empty_cell_midpoint(grid_data, zeros)
 
-	solver.solve_puzzle(puzzle_data)
-	# puzzle.print_puzzle(puzzle_data)
+		solver.solve_puzzle(puzzle_data)
+		# puzzle.print_puzzle(puzzle_data)
 
-	delay = 1 / 20
-	input.fill_in_puzzle(puzzle_data, start_point, zeros, midpoints, delay)
+		delay = 1 / 20
+		input.fill_in_puzzle(puzzle_data, start_point, zeros, midpoints, delay)
 
-	print('finished')
+		delay = 15
+		play_x = 350
+		play_y = 575
+
+		input.click_at_point(delay, play_x, play_y)
+
+go()
