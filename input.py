@@ -18,4 +18,6 @@ def fill_in_puzzle(puzzle_data, start_point, zeros, midpoints, delay):
 def click_at_point(delay, x, y):
 	time.sleep(delay)
 	pyautogui.moveTo(x, y)
+	print('click')
 	pyautogui.click()
+	pyautogui.moveTo(1000, 1000)

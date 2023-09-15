@@ -2,10 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import ImageGrab as ig
 from pynput import keyboard
+import skimage.transform as transform
 import time
 import win32gui
 
-import pyautogui
+import pandas as pd
 
 def clean_grid(grid):
 	col = grid.copy()
@@ -46,20 +47,38 @@ def create_mask(line):
 
 	return line
 
-def detect_ad(delay):
+def detect_ad(delay, icon_data):
 	time.sleep(delay)
 
 	d = 800
-	win_image = 256 - convert_to_luminance(np.array(ig.grab((0, 0, d, d))))
-	test_x = 400
-	test_y = 50
-	test_point = win_image[test_x, test_y]
-	test_val = 89.3674
+	win = 256 - convert_to_luminance(np.array(ig.grab((0, 0, d, d))))
 
-	test = np.abs((test_point - test_val) / test_val)
+	threshold = 50
+	win[win <= threshold] = 1
+	win[win > threshold] = 0
 
-	# test_point must be within 15% of test_val
-	if test < 0.15: return True
+	left = 740
+	right = 790
+	top = 40
+	bottom = 75
+
+	win = win[top : bottom, left : right].astype(int)
+
+	row_sum = win.sum(axis = 0).astype(bool).astype(int)
+	col_sum = win.sum(axis = 1).astype(bool).astype(int)
+
+	left = row_sum.argmax()
+	right = win.shape[1] - row_sum[::-1].argmax()
+	top = col_sum.argmax()
+	bottom = win.shape[0] - col_sum[::-1].argmax()
+
+	win = win[ top : bottom, left : right]
+	win = transform.resize(win, (16, 16), preserve_range = True)
+
+	test = (win == icon_data).mean()
+	if test >= 0.9:
+		print('Ad detected')
+		return True
 
 	return False
 
@@ -142,6 +161,9 @@ def get_empty_cell_midpoint(grid, zeros):
 		midpoints.append((mid_row, mid_col))
 
 	return midpoints
+
+def load_icon_data():
+	return np.genfromtxt('x.csv', delimiter = ',').astype(int)
 
 def plot_window(image):
 	plt.imshow(image, cmap = 'Greys')

@@ -64,7 +64,7 @@ The game needs to have a few specific settings set for this to work properly.
 
 In order to start the program, you must already be in the puzzle you wish to solve. Go to `Classic`, then select your difficulty. Once the puzzle fully loads, run the script.
 
-Currently there is no ad detection. So if you get an ad, the program will crash. I am working on this and hopefully it will not be a big issue to solve. The game does run until you get an ad though. Solving several in a row before crashing.
+The ad skip functionality is there. It's not perfect and will crash on certain ads. They apparently do not have a uniform format to how they are laid out.
 
 # Use cases
 
