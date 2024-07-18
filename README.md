@@ -22,7 +22,7 @@ When the structure is completed, the algorithm grabs the row and column boundari
 
 As mentioned, thanks to the constraints of the problem, the numbers are very standardized. They are not, however, the same across each cell. One 5 may not be the same as another 5, but only very slightly. Hence, you can't just compare them directly. Instead, I tried to find some of the best looking numbers, grabbed their standardized data and just threw them into CSVs. At the start of the program, we can load those in and grab them as we need them. To get the correct number, we can use numpy's boolean logic and compare each array (the number on the grid, and the saved number) directly by using `grid == saved` and then taking the mean of this value (`(grid == saved).mean()`). This will give us a percentage of how well the number matches the saved number. Do this for all 9 digits and then take the one with the greatest mean and we have our number!
 
-### Sovling the sudoku
+### Solving the sudoku
 
 Since we now have the numbers, we can throw them in an nxn numpy array of integers and set the empty cells to 0. We can then use a backtracking algorithm to solve the sudoku quickly. At this point it was very late and I'd spent most of the day on it, so I googled a solution and used [Geeksforgeeks](https://www.geeksforgeeks.org/sudoku-backtracking-7/). I did, however, clean up their version by numpy-ifying (numpifying?) it since I was already working with this powerful library.
 
